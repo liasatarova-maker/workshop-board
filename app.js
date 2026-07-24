@@ -44,6 +44,10 @@ function createOrderCard(order,completed){
   const card=template.content.firstElementChild.cloneNode(true);
   card.querySelector('.order-number').textContent=`Заказ №${order.order_number||'—'}`;
   card.querySelector('.order-title').textContent=order.title||'Без названия';
+  card.querySelector('.order-dimensions').textContent =
+  `Размер: ${order.dimensions || 'не указан'}`;
+  card.querySelector('.order-deadline').textContent =
+  `Срок сдачи: ${formatDeadline(order.deadline)}`;
   const shown=completed?(order.completed_at||order.created_at):order.created_at;
   card.querySelector('.order-time').textContent=completed
     ?`Завершён: ${formatDateTime(shown)}`
