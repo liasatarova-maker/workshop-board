@@ -94,7 +94,22 @@ async function loadOrders(){
 }
 
 async function completeOrder(orderNumber,button){
+   const confirmed = window.confirm(
+    `Перенести заказ №${orderNumber} в завершённые?`
+  );
+
+  if (!confirmed) {
+    return;
+  }
+
   if(!orderNumber) return;
+  const confirmed = window.confirm(
+    `Перенести заказ №${orderNumber} в завершённые?`
+);
+
+if (!confirmed) {
+    return;
+}
   button.disabled=true;
   button.textContent='Сохраняю…';
   try{
