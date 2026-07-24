@@ -1,43 +1,39 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LuxPrint — табло цеха</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Табло цеха</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="page-header">
-    <div>
-      <p class="brand">LUXPRINT</p>
-      <h1>Табло цеха</h1>
-    </div>
-    <div class="connection-status" id="connectionStatus">Подключение…</div>
-  </header>
-
   <main class="board">
-    <section class="board-column">
-      <div class="column-heading">
-        <div>
-          <p class="column-kicker">В производстве</p>
-          <h2>Новые заказы</h2>
-        </div>
-        <span class="counter" id="newCount">0</span>
+    <header class="board-header">
+      <div>
+        <p class="eyebrow">Производство</p>
+        <h1>Табло цеха</h1>
       </div>
-      <div class="orders-list" id="newOrders"></div>
-      <div class="empty-state" id="newEmpty" hidden>Новых заказов пока нет</div>
-    </section>
+      <div id="connectionStatus" class="connection-status">Подключение…</div>
+    </header>
 
-    <section class="board-column board-column--completed">
-      <div class="column-heading">
-        <div>
-          <p class="column-kicker">История</p>
-          <h2>Завершённые</h2>
+    <section class="columns">
+      <section class="panel panel--new">
+        <div class="panel-header">
+          <h2>Новые заказы</h2>
+          <span id="newCount" class="count">0</span>
         </div>
-        <span class="counter" id="completedCount">0</span>
-      </div>
-      <div class="orders-list" id="completedOrders"></div>
-      <div class="empty-state" id="completedEmpty" hidden>Завершённых заказов пока нет</div>
+        <div id="newOrders" class="orders-list"></div>
+        <p id="newEmpty" class="empty-state">Новых заказов пока нет</p>
+      </section>
+
+      <section class="panel panel--completed">
+        <div class="panel-header">
+          <h2>Завершённые</h2>
+          <span id="completedCount" class="count">0</span>
+        </div>
+        <div id="completedOrders" class="orders-list"></div>
+        <p id="completedEmpty" class="empty-state">Завершённых заказов пока нет</p>
+      </section>
     </section>
   </main>
 
@@ -46,10 +42,10 @@
       <div class="order-card__main">
         <div class="order-number"></div>
         <h3 class="order-title"></h3>
-          <div class="order-details">
-        <div class="order-dimensions"></div>
-        <div class="order-deadline"></div>
-      </div>
+        <div class="order-details">
+          <div class="order-dimensions"></div>
+          <div class="order-deadline"></div>
+        </div>
         <time class="order-time"></time>
       </div>
       <button class="complete-button" type="button">Готово</button>
@@ -61,13 +57,13 @@
       <div class="order-card__main">
         <div class="order-number"></div>
         <h3 class="order-title"></h3>
-          <div class="order-details">
-        <div class="order-dimensions"></div>
-        <div class="order-deadline"></div>
-      </div>
+        <div class="order-details">
+          <div class="order-dimensions"></div>
+          <div class="order-deadline"></div>
+        </div>
         <time class="order-time"></time>
       </div>
-      <div class="completed-mark">✓</div>
+      <div class="completed-mark" aria-label="Завершено">✓</div>
     </article>
   </template>
 
