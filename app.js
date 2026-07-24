@@ -11,6 +11,7 @@ const completedCountElement=document.querySelector('#completedCount');
 const connectionStatusElement=document.querySelector('#connectionStatus');
 const newOrderTemplate=document.querySelector('#newOrderTemplate');
 const completedOrderTemplate=document.querySelector('#completedOrderTemplate');
+const clearCompletedButton=document.querySelector('#clearCompletedButton');
 
 let refreshTimer=null;
 let requestInProgress=false;
@@ -34,15 +35,6 @@ function formatDateTime(value){
   }).format(date);
 }
 
-function formatDeadline(value){
-  if(!value) return 'не указан';
-  const date=new Date(value);
-  if(Number.isNaN(date.getTime())) return 'не указан';
-  return new Intl.DateTimeFormat('ru-RU',{
-    day:'2-digit',month:'2-digit',year:'numeric'
-  }).format(date);
-}
-
 function setConnectionStatus(message,isError=false){
   connectionStatusElement.textContent=message;
   connectionStatusElement.classList.toggle('is-error',isError);
@@ -53,18 +45,6 @@ function createOrderCard(order,completed){
   const card=template.content.firstElementChild.cloneNode(true);
   card.querySelector('.order-number').textContent=`Заказ №${order.order_number||'—'}`;
   card.querySelector('.order-title').textContent=order.title||'Без названия';
-
-  const dimensionsElement=card.querySelector('.order-dimensions');
-  const deadlineElement=card.querySelector('.order-deadline');
-
-  if(dimensionsElement){
-    dimensionsElement.textContent=`Размер: ${order.dimensions||'не указан'}`;
-  }
-
-  if(deadlineElement){
-    deadlineElement.textContent=`Срок сдачи: ${formatDeadline(order.deadline)}`;
-  }
-
   const shown=completed?(order.completed_at||order.created_at):order.created_at;
   card.querySelector('.order-time').textContent=completed
     ?`Завершён: ${formatDateTime(shown)}`
@@ -94,7 +74,7 @@ async function loadOrders(){
   requestInProgress=true;
   try{
     const query=new URLSearchParams({
-      select:'order_number,title,status,created_at,completed_at,dimensions,deadline',
+      select:'order_number,title,status,created_at,completed_at',
       order:'created_at.desc'
     });
     const response=await fetch(`${ORDERS_ENDPOINT}?${query}`,{
@@ -116,13 +96,6 @@ async function loadOrders(){
 
 async function completeOrder(orderNumber,button){
   if(!orderNumber) return;
-
-  const confirmed=window.confirm(
-    `Перенести заказ №${orderNumber} в завершённые?`
-  );
-
-  if(!confirmed) return;
-
   button.disabled=true;
   button.textContent='Сохраняю…';
   try{
@@ -150,6 +123,41 @@ async function completeOrder(orderNumber,button){
   }
 }
 
+async function clearCompletedOrders(){
+  const confirmed=window.confirm(
+    'Удалить все завершённые заказы? Новые заказы останутся без изменений.'
+  );
+
+  if(!confirmed) return;
+
+  clearCompletedButton.disabled=true;
+  const originalText=clearCompletedButton.textContent;
+  clearCompletedButton.textContent='Очищаю…';
+
+  try{
+    const response=await fetch(
+      `${ORDERS_ENDPOINT}?status=eq.completed`,
+      {
+        method:'DELETE',
+        headers:getHeaders({Prefer:'return=minimal'})
+      }
+    );
+
+    if(!response.ok){
+      const message=await response.text();
+      throw new Error(`Supabase ${response.status}: ${message||response.statusText}`);
+    }
+
+    await loadOrders();
+  }catch(error){
+    console.error(error);
+    setConnectionStatus('Не удалось очистить завершённые заказы',true);
+  }finally{
+    clearCompletedButton.disabled=false;
+    clearCompletedButton.textContent=originalText;
+  }
+}
+
 function startAutoRefresh(){
   clearInterval(refreshTimer);
   refreshTimer=setInterval(loadOrders,10000);
@@ -159,6 +167,8 @@ document.addEventListener('visibilitychange',()=>{
   if(document.hidden) clearInterval(refreshTimer);
   else { loadOrders(); startAutoRefresh(); }
 });
+
+clearCompletedButton.addEventListener('click',clearCompletedOrders);
 
 loadOrders();
 startAutoRefresh();
