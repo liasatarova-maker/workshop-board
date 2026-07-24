@@ -19,8 +19,11 @@ h2{margin-bottom:0;font-size:clamp(26px,3vw,38px);font-weight:500}
 .orders-list{display:grid;gap:14px}
 .order-card{display:flex;min-width:0;padding:20px;align-items:center;justify-content:space-between;gap:18px;border:1px solid var(--border);border-radius:18px;background:#fff;box-shadow:0 5px 18px rgba(57,86,153,.055)}
 .order-card__main{min-width:0}
-.order-number{margin-bottom:7px;color:var(--blue);font-size:14px;font-weight:700}
+.order-number{margin-bottom:7px;color:var(--blue);font-size:18px;font-weight:800}
 .order-title{margin-bottom:10px;overflow-wrap:anywhere;font-size:clamp(20px,2.2vw,28px);font-weight:600;line-height:1.18}
+.order-details{display:grid;gap:3px;margin-bottom:9px}
+.order-dimensions{font-size:15px;font-weight:700;color:#39445a}
+.order-deadline{font-size:14px;color:var(--muted)}
 .order-time{color:var(--muted);font-size:14px}
 .complete-button{flex:0 0 auto;min-width:110px;min-height:48px;padding:10px 20px;border:0;border-radius:14px;background:var(--blue);color:#fff;font-weight:700;cursor:pointer}
 .complete-button:hover{background:var(--blue-dark)}
