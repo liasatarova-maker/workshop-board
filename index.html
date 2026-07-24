@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LuxPrint — табло цеха</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="page-header">
+    <div>
+      <p class="brand">LUXPRINT</p>
+      <h1>Табло цеха</h1>
+    </div>
+    <div class="connection-status" id="connectionStatus">Подключение…</div>
+  </header>
+
+  <main class="board">
+    <section class="board-column">
+      <div class="column-heading">
+        <div>
+          <p class="column-kicker">В производстве</p>
+          <h2>Новые заказы</h2>
+        </div>
+        <span class="counter" id="newCount">0</span>
+      </div>
+      <div class="orders-list" id="newOrders"></div>
+      <div class="empty-state" id="newEmpty" hidden>Новых заказов пока нет</div>
+    </section>
+
+    <section class="board-column board-column--completed">
+      <div class="column-heading">
+        <div>
+          <p class="column-kicker">История</p>
+          <h2>Завершённые</h2>
+        </div>
+        <span class="counter" id="completedCount">0</span>
+      </div>
+      <div class="orders-list" id="completedOrders"></div>
+      <div class="empty-state" id="completedEmpty" hidden>Завершённых заказов пока нет</div>
+    </section>
+  </main>
+
+  <template id="newOrderTemplate">
+    <article class="order-card">
+      <div class="order-card__main">
+        <div class="order-number"></div>
+        <h3 class="order-title"></h3>
+        <time class="order-time"></time>
+      </div>
+      <button class="complete-button" type="button">Готово</button>
+    </article>
+  </template>
+
+  <template id="completedOrderTemplate">
+    <article class="order-card order-card--completed">
+      <div class="order-card__main">
+        <div class="order-number"></div>
+        <h3 class="order-title"></h3>
+        <time class="order-time"></time>
+      </div>
+      <div class="completed-mark">✓</div>
+    </article>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
