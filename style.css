@@ -149,6 +149,8 @@ h2{margin-bottom:0;font-size:clamp(26px,3vw,38px);font-weight:500}
   font-size:clamp(20px,2vw,28px);
   font-weight:700;
   line-height:1.12;
+
+  min-height:56px;
 }
 .order-meta{
   display:flex;
