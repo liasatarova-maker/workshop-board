@@ -166,7 +166,7 @@ h2{margin-bottom:0;font-size:clamp(26px,3vw,38px);font-weight:500}
   grid-template-columns:
     minmax(170px,1.15fr)
     minmax(170px,1fr)
-    minmax(150px,.85fr);
+    minmax(158px,.85fr);
   gap:18px;
   color:#69758b;
   font-size:14px;
