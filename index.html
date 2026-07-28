@@ -16,7 +16,7 @@
   </header>
 
   <main class="board">
-    <section class="board-column">
+    <section class="board-column board-column--new">
       <div class="column-heading">
         <div>
           <p class="column-kicker">В производстве</p>
@@ -33,9 +33,10 @@
         <div>
           <p class="column-kicker">История</p>
           <h2>Завершённые</h2>
-        
-      <button id="clearCompletedButton" class="clear-completed-button" type="button">Очистить завершённые</button>
-    </div>
+          <button id="clearCompletedButton" class="clear-completed-button" type="button">
+            Очистить завершённые
+          </button>
+        </div>
         <span class="counter" id="completedCount">0</span>
       </div>
       <div class="orders-list" id="completedOrders"></div>
@@ -44,13 +45,27 @@
   </main>
 
   <template id="newOrderTemplate">
-    <article class="order-card">
-      <div class="order-card__main">
-        <div class="order-number"></div>
-        <h3 class="order-title"></h3>
-        <time class="order-time"></time>
+    <article class="new-order-row">
+      <button class="order-thumbnail" type="button" aria-label="Открыть изображение">
+        <img class="order-thumbnail__image" alt="">
+        <span class="order-thumbnail__placeholder"></span>
+      </button>
+
+      <div class="order-card">
+        <div class="order-card__main">
+          <div class="order-number"></div>
+          <span class="order-label">Название</span>
+          <h3 class="order-title"></h3>
+          <div class="order-meta">
+            <time class="order-created"></time>
+            <span class="order-dimensions"></span>
+            <span class="order-deadline"></span>
+          </div>
+        </div>
+
+        <button class="edit-button" type="button" title="Редактировать заказ" aria-label="Редактировать заказ">✎</button>
+        <button class="complete-button" type="button">Готово</button>
       </div>
-      <button class="complete-button" type="button">Готово</button>
     </article>
   </template>
 
@@ -64,6 +79,29 @@
       <div class="completed-mark">✓</div>
     </article>
   </template>
+
+  <div class="modal-backdrop" id="imageModal" hidden>
+    <img class="image-modal__content" id="imageModalContent" alt="Изображение заказа">
+  </div>
+
+  <div class="modal-backdrop" id="editModal" hidden>
+    <form class="edit-modal" id="editForm">
+      <h3>Редактировать заказ</h3>
+      <label>
+        <span>Номер заказа</span>
+        <input id="editOrderNumber" type="text" required>
+      </label>
+      <label>
+        <span>Название</span>
+        <input id="editOrderTitle" type="text" required>
+      </label>
+      <p class="edit-error" id="editError" hidden></p>
+      <div class="edit-actions">
+        <button class="edit-cancel" id="editCancelButton" type="button">Отмена</button>
+        <button class="edit-save" type="submit">Сохранить</button>
+      </div>
+    </form>
+  </div>
 
   <script src="app.js"></script>
 </body>
