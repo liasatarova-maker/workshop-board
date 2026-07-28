@@ -133,7 +133,7 @@ h2{margin-bottom:0;font-size:clamp(26px,3vw,38px);font-weight:500}
 .order-number{
   margin-bottom:8px;
   color:var(--blue);
- font-size:clamp(20px,1.8vw,26px);
+ font-size: clamp(17px, 1.5vw, 22px);
   font-weight:800;
   line-height:1.05;
 }
