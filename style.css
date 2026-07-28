@@ -129,13 +129,12 @@ h2{margin-bottom:0;font-size:clamp(26px,3vw,38px);font-weight:500}
   background:#fff;
   box-shadow:0 5px 18px rgba(57,86,153,.055);
 }
-.order-card__main{min-width:0;width:100%}
-.order-number{
-  margin-bottom:8px;
-  color:var(--blue);
- font-size: clamp(17px, 1.5vw, 22px);
-  font-weight:800;
-  line-height:1.05;
+.order-card__main{
+  display:flex;
+  min-width:0;
+  width:100%;
+  align-self:stretch;
+  flex-direction:column;
 }
 .order-label{
   display:block;
@@ -146,18 +145,21 @@ h2{margin-bottom:0;font-size:clamp(26px,3vw,38px);font-weight:500}
 .order-title{
   margin-top:4px;
   margin-bottom:18px;
-  overflow:hidden;
-  display:-webkit-box;
-  -webkit-box-orient:vertical;
-  -webkit-line-clamp:2;
-
-  line-height:1.2;
-  min-height:48px;
+  overflow-wrap:anywhere;
+  font-size:clamp(20px,2vw,28px);
+  font-weight:700;
+  line-height:1.12;
 }
 .order-meta{
-  display:flex;
+  display:grid;
+  width:100%;
+  margin-top:auto;
   align-items:center;
-  gap:clamp(18px,3vw,44px);
+  grid-template-columns:
+    minmax(210px,1.15fr)
+    minmax(190px,1fr)
+    minmax(190px,1fr);
+  gap:24px;
   color:#69758b;
   font-size:14px;
   white-space:nowrap;
