@@ -1,24 +1,26 @@
 <!doctype html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>LuxPrint — Табло цеха</title>
+  <title>LuxPrint — Табло цеха</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header class="page-header">
-    <div>
-      <p class="brand">LUXPRINT</p>
-      <h1>Табло цеха</h1>
+    <div class="page-header__inner">
+      <div>
+        <p class="brand">LUXPRINT</p>
+        <h1>Табло цеха</h1>
+      </div>
+      <div class="connection-status" id="connectionStatus">Подключение…</div>
     </div>
-    <div class="connection-status" id="connectionStatus">Подключение…</div>
   </header>
 
   <main class="board">
@@ -28,14 +30,15 @@
           <p class="column-kicker">В производстве</p>
           <h2>Новые заказы</h2>
         </div>
-        <span class="counter" id="newCount">0</span>
+        <span class="counter counter--new" id="newCount">0</span>
       </div>
+
       <div class="orders-list" id="newOrders"></div>
       <div class="empty-state" id="newEmpty" hidden>Новых заказов пока нет</div>
     </section>
 
     <section class="board-column board-column--completed">
-      <div class="column-heading">
+      <div class="column-heading column-heading--completed">
         <div>
           <p class="column-kicker">История</p>
           <h2>Завершённые</h2>
@@ -45,6 +48,7 @@
         </div>
         <span class="counter" id="completedCount">0</span>
       </div>
+
       <div class="orders-list" id="completedOrders"></div>
       <div class="empty-state" id="completedEmpty" hidden>Завершённых заказов пока нет</div>
     </section>
@@ -52,24 +56,26 @@
 
   <template id="newOrderTemplate">
     <article class="new-order-row">
-      <button class="order-thumbnail" type="button" aria-label="Открыть изображение">
-        <img class="order-thumbnail__image" alt="">
-        <span class="order-thumbnail__placeholder"></span>
-      </button>
-
       <div class="order-card">
         <div class="order-card__main">
           <div class="order-number"></div>
           <span class="order-label">Название</span>
           <h3 class="order-title"></h3>
+          <span class="order-dimensions"></span>
+
           <div class="order-meta">
             <time class="order-created"></time>
-            <span class="order-dimensions"></span>
             <span class="order-deadline"></span>
           </div>
         </div>
 
         <button class="edit-button" type="button" title="Редактировать заказ" aria-label="Редактировать заказ">✎</button>
+
+        <button class="order-thumbnail" type="button" aria-label="Открыть изображение">
+          <img class="order-thumbnail__image" alt="">
+          <span class="order-thumbnail__placeholder" aria-hidden="true"></span>
+        </button>
+
         <button class="complete-button" type="button">Готово</button>
       </div>
     </article>
