@@ -13,6 +13,8 @@ const connectionStatusElement=document.querySelector('#connectionStatus');
 const newOrderTemplate=document.querySelector('#newOrderTemplate');
 const completedOrderTemplate=document.querySelector('#completedOrderTemplate');
 const clearCompletedButton=document.querySelector('#clearCompletedButton');
+const deadlineFilter=document.querySelector('#deadlineFilter');
+const paginationElement=document.querySelector('#pagination');
 
 const imageModal=document.querySelector('#imageModal');
 const imageModalContent=document.querySelector('#imageModalContent');
@@ -26,6 +28,9 @@ const editError=document.querySelector('#editError');
 let refreshTimer=null;
 let requestInProgress=false;
 let editedOrderNumber=null;
+let allOrders=[];
+let currentPage=1;
+const ORDERS_PER_PAGE=6;
 
 function getHeaders(extraHeaders={}) {
   return {
@@ -133,20 +138,52 @@ function createOrderCard(order,completed){
   return card;
 }
 
+function isNearDeadline(order){
+  if(!order.deadline) return false;
+  const deadline=new Date(order.deadline);
+  if(Number.isNaN(deadline.getTime())) return false;
+  const now=new Date();
+  const end=new Date(now);
+  end.setDate(end.getDate()+2);
+  end.setHours(23,59,59,999);
+  return deadline<=end;
+}
+
+function renderPagination(pageCount){
+  paginationElement.replaceChildren();
+  if(pageCount<=1) return;
+  for(let page=1;page<=pageCount;page+=1){
+    const button=document.createElement('button');
+    button.type='button';
+    button.textContent=String(page);
+    button.classList.toggle('is-active',page===currentPage);
+    button.setAttribute('aria-label',`Страница ${page}`);
+    button.addEventListener('click',()=>{currentPage=page;renderOrders(allOrders);});
+    paginationElement.appendChild(button);
+  }
+}
+
 function renderOrders(orders){
-  const newOrders=orders.filter((order)=>order.status==='new');
+  allOrders=orders;
+  let newOrders=orders.filter((order)=>order.status==='new');
   const completedOrders=orders.filter((order)=>order.status==='completed');
+  if(deadlineFilter.checked) newOrders=newOrders.filter(isNearDeadline);
+
+  const pageCount=Math.max(1,Math.ceil(newOrders.length/ORDERS_PER_PAGE));
+  currentPage=Math.min(currentPage,pageCount);
+  const start=(currentPage-1)*ORDERS_PER_PAGE;
+  const visibleNewOrders=newOrders.slice(start,start+ORDERS_PER_PAGE);
 
   newOrdersElement.replaceChildren();
   completedOrdersElement.replaceChildren();
-
-  newOrders.forEach((order)=>newOrdersElement.appendChild(createOrderCard(order,false)));
+  visibleNewOrders.forEach((order)=>newOrdersElement.appendChild(createOrderCard(order,false)));
   completedOrders.forEach((order)=>completedOrdersElement.appendChild(createOrderCard(order,true)));
 
   newCountElement.textContent=String(newOrders.length);
   completedCountElement.textContent=String(completedOrders.length);
   newEmptyElement.hidden=newOrders.length>0;
   completedEmptyElement.hidden=completedOrders.length>0;
+  renderPagination(pageCount);
 }
 
 async function loadOrders(){
@@ -364,6 +401,7 @@ editModal.addEventListener('click',(event)=>{
 editCancelButton.addEventListener('click',closeEditModal);
 editForm.addEventListener('submit',saveEditedOrder);
 clearCompletedButton.addEventListener('click',clearCompletedOrders);
+deadlineFilter.addEventListener('change',()=>{currentPage=1;renderOrders(allOrders);});
 
 document.addEventListener('keydown',(event)=>{
   if(event.key!=='Escape') return;
