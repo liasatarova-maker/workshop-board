@@ -112,6 +112,7 @@ function createOrderCard(order,completed){
 
   card.querySelector('.order-created').textContent=`Создан: ${formatDateTime(order.created_at)}`;
   card.querySelector('.order-dimensions').textContent=`Размер: ${order.dimensions||'не указан'}`;
+  card.querySelector('.order-customer').textContent=`Заказчик: ${order.customer||'не указан'}`;
   card.querySelector('.order-deadline').textContent=`Дата сдачи: ${formatDeadline(order.deadline)}`;
 
   const thumbnail=card.querySelector('.order-thumbnail');
@@ -192,7 +193,7 @@ async function loadOrders(){
 
   try{
     const query=new URLSearchParams({
-      select:'order_number,title,status,created_at,completed_at,deadline,dimensions,image_url,image_path',
+      select:'order_number,title,customer,status,created_at,completed_at,deadline,dimensions,image_url,image_path',
       order:'created_at.desc'
     });
 
