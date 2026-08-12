@@ -83,9 +83,14 @@
 
   <template id="completedOrderTemplate">
     <article class="order-card order-card--completed">
+      <button class="completed-thumbnail" type="button" aria-label="Открыть изображение заказа">
+        <img class="completed-thumbnail__image" alt="">
+        <span class="completed-thumbnail__placeholder">Нет фото</span>
+      </button>
       <div class="order-card__main">
         <div class="order-number"></div>
         <h3 class="order-title"></h3>
+        <span class="order-customer"></span>
         <time class="order-time"></time>
       </div>
       <div class="completed-mark" aria-hidden="true">✓</div>

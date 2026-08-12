@@ -107,6 +107,22 @@ function createOrderCard(order,completed){
   if(completed){
     const shown=order.completed_at||order.created_at;
     card.querySelector('.order-time').textContent=`Завершён: ${formatDateTime(shown)}`;
+    card.querySelector('.order-customer').textContent=`Заказчик: ${order.customer||'не указан'}`;
+
+    const thumbnail=card.querySelector('.completed-thumbnail');
+    const thumbnailImage=card.querySelector('.completed-thumbnail__image');
+    const placeholder=card.querySelector('.completed-thumbnail__placeholder');
+
+    if(order.image_url){
+      thumbnailImage.src=order.image_url;
+      thumbnailImage.alt=`Изображение заказа №${order.order_number||''}`;
+      thumbnail.classList.add('has-image');
+      placeholder.hidden=true;
+      thumbnail.addEventListener('click',()=>openImageModal(order.image_url));
+    }else{
+      thumbnail.disabled=true;
+      thumbnail.setAttribute('aria-label','Изображение не добавлено');
+    }
     return card;
   }
 
