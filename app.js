@@ -149,6 +149,9 @@ function createOrderCard(order,completed){
   const editButton=card.querySelector('.edit-button');
   editButton.addEventListener('click',()=>openEditModal(order));
 
+  const deleteButton=card.querySelector('.delete-order-button');
+  deleteButton.addEventListener('click',()=>deleteOrder(order,deleteButton));
+
   const completeButton=card.querySelector('.complete-button');
   completeButton.addEventListener('click',()=>completeOrder(order.order_number,completeButton));
 
@@ -342,6 +345,42 @@ async function deleteStorageObject(path){
   if(!response.ok&&response.status!==404){
     const message=await response.text();
     throw new Error(`Storage ${response.status}: ${message||response.statusText}`);
+  }
+}
+
+async function deleteOrder(order,button){
+  if(!order?.order_number) return;
+
+  const confirmed=window.confirm(
+    `Удалить заказ №${order.order_number}? Это действие нельзя отменить.`
+  );
+  if(!confirmed) return;
+
+  button.disabled=true;
+
+  try{
+    if(order.image_path){
+      await deleteStorageObject(order.image_path);
+    }
+
+    const response=await fetch(
+      `${ORDERS_ENDPOINT}?order_number=eq.${encodeURIComponent(order.order_number)}`,
+      {
+        method:'DELETE',
+        headers:getHeaders({Prefer:'return=minimal'})
+      }
+    );
+
+    if(!response.ok){
+      const message=await response.text();
+      throw new Error(`Supabase ${response.status}: ${message||response.statusText}`);
+    }
+
+    await loadOrders();
+  }catch(error){
+    console.error(error);
+    button.disabled=false;
+    setConnectionStatus('Не удалось удалить заказ',true);
   }
 }
 
