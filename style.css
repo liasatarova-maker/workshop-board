@@ -172,3 +172,281 @@ h2{font-size:clamp(29px,2.3vw,38px);font-weight:500;letter-spacing:-.04em;line-h
 .day-order.is-urgent{border-color:#ead67e;background:#fff8d9}.day-order.is-completed{opacity:.68}.day-order__number{color:var(--blue);font-size:13px;font-weight:800}.day-order__title{margin-top:3px;color:var(--title);font-size:17px;font-weight:750}.day-order__meta{margin-top:5px;color:#747f92;font-size:12px}.day-order__status{align-self:start;padding:5px 8px;border-radius:999px;background:#edf2ff;color:var(--blue);font-size:9px;font-weight:900;letter-spacing:.05em}.day-order.is-urgent .day-order__status{background:#fff0a8;color:#725a00}.day-order.is-completed .day-order__status{background:var(--green-soft);color:var(--green)}
 @media(max-width:880px){.view-toolbar{padding:18px 18px 0}.calendar-view{padding:18px}.calendar-panel{padding:20px}.calendar-day{min-height:120px;padding:7px}.calendar-event{font-size:9px}}
 @media(max-width:680px){.view-toolbar{padding:14px 12px 0}.view-switcher{width:100%}.view-switcher__button{flex:1}.calendar-view{padding:14px 12px 24px}.calendar-panel{padding:14px;border-radius:20px}.calendar-toolbar{grid-template-columns:38px 1fr 38px;gap:8px}.calendar-nav{width:38px;height:38px}.calendar-today{grid-column:1/-1;justify-self:center}.calendar-weekdays span{padding:8px 2px;font-size:10px}.calendar-day{min-height:94px;padding:5px}.calendar-day__number{width:23px;height:23px;font-size:11px}.calendar-day__count{display:none}.calendar-event{padding:5px;font-size:8px}.calendar-events .calendar-event:nth-of-type(n+3){display:none}.calendar-more{font-size:8px}.day-modal{padding:20px}.day-order{grid-template-columns:1fr}.day-order__status{justify-self:start}}
+
+/* v5: phone-only layout. Desktop/tablet rules above remain untouched. */
+@media (max-width: 560px){
+  .page-header{min-height:88px;padding:0 14px}
+  .page-header__inner{min-height:88px;gap:10px}
+  .brand{margin-bottom:5px;font-size:9px}
+  h1{font-size:28px}
+  .connection-status{max-width:112px;padding:6px 9px;font-size:9px}
+
+  .view-toolbar{padding:10px 10px 0}
+  .view-switcher{padding:3px;border-radius:13px}
+  .view-switcher__button{min-width:0;padding:9px 8px;border-radius:10px;font-size:13px}
+
+  .board{padding:12px 10px 22px;gap:14px}
+  .board-column{padding:20px 14px;border-radius:20px}
+  .column-heading{margin-bottom:18px;gap:12px}
+  .column-kicker{margin-bottom:5px;font-size:10px}
+  h2{font-size:29px}
+  .deadline-filter{gap:9px;font-size:12px;white-space:normal}
+  .deadline-filter__track{flex:0 0 43px}
+
+  .orders-list{gap:14px}
+  .new-order-row{width:100%}
+  .order-card{display:grid;min-height:0;padding:16px;grid-template-columns:minmax(0,1fr) 64px;grid-template-areas:"head head" "flags flags" "content content" "meta meta" "action thumb";column-gap:12px;row-gap:0;border-radius:17px}
+  .order-card__main{display:contents}
+  .order-card__top{grid-area:head;margin:0 0 8px;align-items:center;gap:7px}
+  .order-card__top .order-number{flex:1;margin:0;font-size:clamp(20px,6.4vw,25px);line-height:1.05}
+  .order-actions{gap:5px;margin:0}
+  .edit-button,.delete-order-button{width:30px;height:30px;flex-basis:30px}
+  .order-flags{grid-area:flags;position:static;margin:0 0 14px;justify-content:flex-start;pointer-events:auto}
+  .urgent-badge{padding:5px 9px;font-size:9px}
+
+  .order-card__content{grid-area:content}
+  .order-label{margin-bottom:4px;font-size:9px}
+  .order-title{margin-bottom:10px;font-size:22px;line-height:1.08}
+  .order-dimensions,.order-customer{font-size:14px;line-height:1.35}
+  .order-customer{margin-top:5px}
+
+  .order-meta{grid-area:meta;position:static;display:grid;margin:18px 0 16px;padding:0;grid-template-columns:1fr;gap:5px;color:#39527d;font-size:11px;white-space:normal}
+  .complete-button{grid-area:action;position:static;align-self:end;justify-self:stretch;min-width:0;min-height:46px;padding:10px 14px;font-size:15px}
+  .order-thumbnail{grid-area:thumb;position:static;align-self:end;justify-self:end;width:64px;height:64px;border-radius:12px}
+
+  .order-card--completed{display:block;min-height:128px;padding:15px 54px 15px 92px}
+  .order-card--completed>.urgent-badge{top:14px;right:54px;font-size:8px}
+  .completed-thumbnail{top:15px;bottom:15px;left:15px;width:62px}
+  .completed-mark{right:14px;width:36px;height:36px;font-size:24px}
+  .order-card--completed .order-title{font-size:17px}
+  .order-card--completed .order-number{padding-right:54px}
+
+  .calendar-view{padding:12px 10px 22px}
+  .calendar-panel{padding:12px 8px;border-radius:18px}
+  .calendar-toolbar{margin-bottom:12px;grid-template-columns:36px 1fr 36px;gap:6px}
+  .calendar-nav{width:36px;height:36px;border-radius:10px;font-size:25px}
+  .calendar-title-wrap{min-width:0}
+  .calendar-title{font-size:21px}
+  .calendar-today{margin-top:2px;padding:8px 14px;font-size:12px}
+  .calendar-weekdays span{padding:7px 0;font-size:8px}
+  .calendar-day{min-height:64px;padding:3px;cursor:pointer}
+  .calendar-day__head{margin-bottom:2px;justify-content:center}
+  .calendar-day__number{width:22px;height:22px;font-size:10px}
+  .calendar-day__count{display:none}
+  .calendar-events{display:flex;min-height:10px;justify-content:center;gap:3px;overflow:hidden}
+  .calendar-event{width:6px;height:6px;padding:0;border:0;border-radius:50%;font-size:0;line-height:0}
+  .calendar-event.is-urgent{background:#e1bd36}
+  .calendar-event.is-completed{background:#68ad87;opacity:.8}
+  .calendar-event.is-overdue:not(.is-completed){background:#d66b62}
+  .calendar-events .calendar-event:nth-of-type(n+5){display:none}
+  .calendar-more{display:none}
+  .day-modal{width:min(94vw,430px);padding:18px 16px;border-radius:18px}
+  .day-modal__header{margin-bottom:14px}
+  .day-modal__header h3{font-size:21px}
+  .day-order{padding:12px;border-radius:12px}
+}
+
+/* v6 — mobile card layout only. Desktop/tablet rules above stay unchanged. */
+@media (max-width: 560px){
+  .order-card{
+    display:block;
+    position:relative;
+    min-height:0;
+    padding:16px 16px 78px;
+  }
+  .order-card__main{display:block}
+  .order-card__top{
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+    margin:0 0 10px;
+    padding-right:0;
+  }
+  .order-card__top .order-number{
+    flex:1 1 auto;
+    min-width:0;
+    margin:0;
+    padding:0;
+    font-size:clamp(20px,6.4vw,25px);
+    line-height:1.08;
+  }
+  .order-actions{
+    flex:0 0 auto;
+    display:flex;
+    gap:6px;
+    margin:0;
+  }
+  .edit-button,.delete-order-button{
+    position:static;
+    width:32px;
+    height:32px;
+    flex:0 0 32px;
+  }
+  .order-flags{
+    position:static;
+    display:flex;
+    justify-content:flex-start;
+    margin:0 0 14px;
+  }
+  /* Reserve the upper-right area for the preview. */
+  .order-label,.order-title,.order-dimensions,.order-customer{
+    display:block;
+    max-width:calc(100% - 84px);
+  }
+  .order-label{margin-bottom:4px}
+  .order-title{margin-bottom:10px}
+  .order-thumbnail{
+    position:absolute;
+    top:58px;
+    right:16px;
+    bottom:auto;
+    width:68px;
+    height:68px;
+    border-radius:12px;
+  }
+  .order-card:has(.order-flags .urgent-badge) .order-thumbnail{top:94px}
+  .order-meta{
+    position:static;
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+    margin:18px 0 14px;
+    padding:0;
+    font-size:11px;
+    white-space:normal;
+  }
+  .order-meta .order-created,.order-meta .order-deadline{display:block}
+  .complete-button{
+    position:absolute;
+    right:16px;
+    bottom:16px;
+    left:16px;
+    width:auto;
+    min-width:0;
+    min-height:46px;
+    padding:10px 14px;
+    border-radius:12px;
+    font-size:15px;
+  }
+}
+
+@media (max-width: 380px){
+  .order-card{padding-inline:14px}
+  .order-thumbnail{right:14px}
+  .complete-button{right:14px;left:14px}
+  .order-label,.order-title,.order-dimensions,.order-customer{max-width:calc(100% - 78px)}
+}
+
+/* v7 — phone-only fixes for the Completed section. Nothing else is changed. */
+@media (max-width: 560px){
+  /* On phones the history should scroll with the page, not inside its own box. */
+  .board-column--completed #completedOrders{
+    max-height:none;
+    overflow:visible;
+    padding-right:0;
+    scrollbar-gutter:auto;
+  }
+
+  .board-column--completed .column-heading--completed{
+    margin-bottom:18px;
+  }
+  .board-column--completed .clear-completed-button{
+    margin-top:14px;
+  }
+
+  /* Fully reset the generic mobile order-card layout for completed cards. */
+  .order-card--completed{
+    display:grid;
+    position:relative;
+    min-height:126px;
+    padding:14px;
+    grid-template-columns:76px minmax(0,1fr) 38px;
+    grid-template-rows:auto;
+    column-gap:12px;
+    align-items:center;
+    border-radius:16px;
+  }
+  .order-card--completed .order-card__main{
+    display:block;
+    min-width:0;
+    grid-column:2;
+  }
+  .order-card--completed .order-number{
+    margin:0 0 6px;
+    padding:0;
+    color:var(--green);
+    font-size:13px;
+    line-height:1.1;
+    overflow-wrap:anywhere;
+  }
+  .order-card--completed .order-title{
+    max-width:none;
+    margin:0 0 7px;
+    color:#5b675f;
+    font-size:17px;
+    line-height:1.12;
+    overflow-wrap:anywhere;
+  }
+  .order-card--completed .order-customer{
+    display:block;
+    max-width:none;
+    margin:0 0 6px;
+    color:#69758b;
+    font-size:12px;
+    line-height:1.25;
+    overflow-wrap:anywhere;
+  }
+  .order-card--completed .order-time{
+    display:block;
+    color:#8a94a8;
+    font-size:11px;
+    line-height:1.25;
+  }
+  .order-card--completed .completed-thumbnail{
+    position:relative;
+    inset:auto;
+    grid-column:1;
+    grid-row:1;
+    align-self:stretch;
+    width:76px;
+    min-height:96px;
+    border-radius:12px;
+  }
+  .order-card--completed .completed-mark{
+    position:static;
+    grid-column:3;
+    grid-row:1;
+    width:36px;
+    height:36px;
+    justify-self:end;
+    align-self:center;
+    font-size:24px;
+    transform:none;
+  }
+  .order-card--completed>.urgent-badge{
+    position:absolute;
+    top:8px;
+    right:8px;
+    z-index:2;
+    padding:4px 7px;
+    font-size:7px;
+  }
+}
+
+@media (max-width: 380px){
+  .order-card--completed{
+    grid-template-columns:66px minmax(0,1fr) 34px;
+    column-gap:10px;
+    padding:12px;
+  }
+  .order-card--completed .completed-thumbnail{
+    width:66px;
+    min-height:88px;
+  }
+  .order-card--completed .completed-mark{
+    width:32px;
+    height:32px;
+    font-size:21px;
+  }
+  .order-card--completed .order-title{font-size:16px}
+}
