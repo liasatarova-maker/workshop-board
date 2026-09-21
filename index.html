@@ -148,8 +148,14 @@
   <div class="modal-backdrop" id="editModal" hidden>
     <form class="edit-modal" id="editForm">
       <h3>Редактировать заказ</h3>
-      <label><span>Номер заказа</span><input id="editOrderNumber" type="text" required></label>
-      <label><span>Название</span><input id="editOrderTitle" type="text" required></label>
+      <div class="edit-fields">
+        <label><span>Номер заказа</span><input id="editOrderNumber" type="text" required></label>
+        <label><span>Название</span><input id="editOrderTitle" type="text" required></label>
+        <label><span>Заказчик</span><input id="editOrderCustomer" type="text"></label>
+        <label><span>Размер</span><input id="editOrderDimensions" type="text"></label>
+        <label><span>Дата сдачи</span><input id="editOrderDeadline" type="date"></label>
+        <label class="edit-urgent"><input id="editOrderUrgent" type="checkbox"><span>Срочный заказ</span></label>
+      </div>
       <p class="edit-error" id="editError" hidden></p>
       <div class="edit-actions">
         <button class="edit-cancel" id="editCancelButton" type="button">Отмена</button>
@@ -158,5 +164,6 @@
     </form>
   </div>
   <script src="app.js"></script>
+  <script src="order-editor.js"></script>
 </body>
 </html>

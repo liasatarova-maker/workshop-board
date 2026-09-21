@@ -450,3 +450,20 @@ h2{font-size:clamp(29px,2.3vw,38px);font-weight:500;letter-spacing:-.04em;line-h
   }
   .order-card--completed .order-title{font-size:16px}
 }
+
+
+/* v8 — full order editing */
+.edit-modal{max-height:90vh;overflow-y:auto}
+.edit-fields{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.edit-fields label:nth-child(3),
+.edit-fields label:nth-child(4),
+.edit-fields label:nth-child(5),
+.edit-fields .edit-urgent{grid-column:1/-1}
+.edit-modal .edit-urgent{display:flex;align-items:center;gap:10px;margin-top:2px;padding:11px 13px;border:1px solid #dce3ef;border-radius:10px;background:#f8faff;cursor:pointer}
+.edit-modal .edit-urgent input{width:18px;height:18px;margin:0;accent-color:var(--blue)}
+.edit-modal .edit-urgent span{font-size:13px;font-weight:700;color:#4e5870}
+@media(max-width:560px){
+  .edit-modal{padding:20px}
+  .edit-fields{grid-template-columns:1fr}
+  .edit-fields label{grid-column:1!important}
+}
