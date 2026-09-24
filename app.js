@@ -237,15 +237,41 @@ function openDayModal(date,orders){
     item.className='day-order';
     if(order.urgent) item.classList.add('is-urgent');
     if(order.status==='completed') item.classList.add('is-completed');
+
+    const preview=document.createElement('button');
+    preview.type='button';
+    preview.className='day-order__preview';
+    preview.setAttribute('aria-label',order.image_url?'Открыть изображение заказа':'Изображение не добавлено');
+    if(order.image_url){
+      const image=document.createElement('img');
+      image.src=order.image_url;
+      image.alt=`Изображение заказа №${order.order_number||''}`;
+      preview.appendChild(image);
+      preview.addEventListener('click',()=>openImageModal(order.image_url));
+    }else{
+      preview.classList.add('is-empty');
+      const placeholder=document.createElement('span');
+      placeholder.textContent='Нет фото';
+      preview.appendChild(placeholder);
+      preview.disabled=true;
+    }
+
     const info=document.createElement('div');
+    info.className='day-order__info';
     const number=document.createElement('div'); number.className='day-order__number'; number.textContent=`Заказ №${order.order_number||'—'}`;
     const title=document.createElement('div'); title.className='day-order__title'; title.textContent=order.title||'Без названия';
     const meta=document.createElement('div'); meta.className='day-order__meta'; meta.textContent=`Заказчик: ${order.customer||'не указан'} · Размер: ${order.dimensions||'не указан'}`;
     info.append(number,title,meta);
-    const status=document.createElement('span'); status.className='day-order__status'; status.textContent=order.status==='completed'?'ГОТОВО':order.urgent?'СРОЧНО':'В РАБОТЕ';
-    item.append(info,status); dayModalOrders.appendChild(item);
+
+    const status=document.createElement('span');
+    status.className='day-order__status';
+    status.textContent=order.status==='completed'?'ГОТОВО':order.urgent?'СРОЧНО':'В РАБОТЕ';
+
+    item.append(preview,info,status);
+    dayModalOrders.appendChild(item);
   });
-  calendarDayModal.hidden=false; document.body.classList.add('modal-open');
+  calendarDayModal.hidden=false;
+  document.body.classList.add('modal-open');
 }
 function closeDayModal(){calendarDayModal.hidden=true;document.body.classList.remove('modal-open');}
 
@@ -515,12 +541,22 @@ async function clearCompletedOrders(){
     }
 
     const completedRows=await listResponse.json();
-    await Promise.all(
+    const imagePaths=[...new Set(
       completedRows
         .map((row)=>row.image_path)
         .filter(Boolean)
-        .map((path)=>deleteStorageObject(path))
+    )];
+
+    const storageResults=await Promise.allSettled(
+      imagePaths.map((path)=>deleteStorageObject(path))
     );
+    const failedStorageDeletes=storageResults.filter((result)=>result.status==='rejected');
+    if(failedStorageDeletes.length){
+      console.warn(
+        `Не удалось удалить ${failedStorageDeletes.length} изображений завершённых заказов. Очистка заказов будет продолжена.`,
+        failedStorageDeletes.map((result)=>result.reason)
+      );
+    }
 
     const response=await fetch(
       `${ORDERS_ENDPOINT}?status=eq.completed`,

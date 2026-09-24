@@ -467,3 +467,67 @@ h2{font-size:clamp(29px,2.3vw,38px);font-weight:500;letter-spacing:-.04em;line-h
   .edit-fields{grid-template-columns:1fr}
   .edit-fields label{grid-column:1!important}
 }
+
+
+/* v9 — system order notifications */
+.header-status{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.notification-enable{border:1px solid #d8e0ef;background:#fff;color:#33415f;border-radius:10px;padding:9px 12px;font:600 12px/1 Onest,sans-serif;cursor:pointer;box-shadow:0 2px 8px rgba(37,55,95,.06)}
+.notification-enable:hover{background:#f6f8fc}
+.notification-enable.is-enabled{color:#258257;background:#eefaf4;border-color:#cdebdc}
+.notification-enable.is-blocked{color:#a34b4b;background:#fff3f3;border-color:#f0d0d0}
+@media(max-width:560px){.header-status{gap:6px}.notification-enable{padding:8px 10px;font-size:11px}}
+
+
+/* v10 — calendar day modal: full scrollable list + order previews */
+.day-modal{
+  display:flex;
+  flex-direction:column;
+  width:min(820px,94vw);
+  height:min(86vh,820px);
+  max-height:calc(100dvh - 48px);
+  overflow:hidden;
+}
+.day-modal__header{flex:0 0 auto}
+.day-modal__orders{
+  flex:1 1 auto;
+  min-height:0;
+  max-height:none;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  padding:0 8px 18px 0;
+  scrollbar-gutter:stable;
+}
+.day-order{
+  grid-template-columns:76px minmax(0,1fr) auto;
+  align-items:center;
+}
+.day-order__preview{
+  width:76px;
+  height:76px;
+  padding:0;
+  overflow:hidden;
+  border:1px solid #dfe6f3;
+  border-radius:11px;
+  background:#eef2f8;
+}
+.day-order__preview img{display:block;width:100%;height:100%;object-fit:cover}
+.day-order__preview.is-empty{display:grid;place-items:center;cursor:default}
+.day-order__preview.is-empty span{padding:6px;color:#98a2b5;font-size:9px;font-weight:700;text-align:center}
+.day-order__info{min-width:0}
+
+@media(max-width:680px){
+  .day-modal{
+    width:min(94vw,520px);
+    height:min(88dvh,760px);
+    max-height:calc(100dvh - 24px);
+    padding:18px 16px;
+  }
+  .day-modal__orders{padding-right:4px;padding-bottom:14px}
+  .day-order{
+    grid-template-columns:64px minmax(0,1fr);
+    gap:8px 12px;
+  }
+  .day-order__preview{grid-column:1;grid-row:1 / span 2;width:64px;height:64px}
+  .day-order__info{grid-column:2;grid-row:1}
+  .day-order__status{grid-column:2;grid-row:2;justify-self:start}
+}

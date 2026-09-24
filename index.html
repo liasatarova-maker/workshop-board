@@ -17,7 +17,10 @@
         <p class="brand">LUXPRINT</p>
         <h1>Табло цеха</h1>
       </div>
-      <div class="connection-status" id="connectionStatus">Подключение…</div>
+      <div class="header-status">
+        <button class="notification-enable" id="notificationEnable" type="button">Включить уведомления</button>
+        <div class="connection-status" id="connectionStatus">Подключение…</div>
+      </div>
     </div>
   </header>
 
@@ -164,6 +167,10 @@
     </form>
   </div>
   <script src="app.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="notifications.js"></script>
+  <script src="push.js"></script>
   <script src="order-editor.js"></script>
+  <script src="push-test.js"></script>
 </body>
 </html>
