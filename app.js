@@ -150,6 +150,9 @@ function createOrderCard(order,completed){
       thumbnail.disabled=true;
       thumbnail.setAttribute('aria-label','Изображение не добавлено');
     }
+
+    const repeatButton=card.querySelector('.repeat-order-button');
+    repeatButton?.addEventListener('click',()=>repeatOrder(order,repeatButton));
     return card;
   }
 
@@ -183,6 +186,36 @@ function createOrderCard(order,completed){
   completeButton.addEventListener('click',()=>completeOrder(order.order_number,completeButton));
 
   return card;
+}
+
+async function repeatOrder(order,button){
+  if(!order?.order_number) return;
+  const confirmed=window.confirm(`Вернуть заказ №${order.order_number} в работу?`);
+  if(!confirmed) return;
+
+  button.disabled=true;
+  button.textContent='…';
+
+  try{
+    const response=await fetch(
+      `${ORDERS_ENDPOINT}?order_number=eq.${encodeURIComponent(order.order_number)}`,
+      {
+        method:'PATCH',
+        headers:getHeaders({Prefer:'return=representation'}),
+        body:JSON.stringify({status:'new',completed_at:null})
+      }
+    );
+    if(!response.ok){
+      const message=await response.text();
+      throw new Error(`Supabase ${response.status}: ${message||response.statusText}`);
+    }
+    await loadOrders();
+  }catch(error){
+    console.error(error);
+    button.disabled=false;
+    button.textContent='Повторить';
+    setConnectionStatus('Не удалось повторить заказ',true);
+  }
 }
 
 function isNearDeadline(order){
@@ -261,7 +294,8 @@ function openDayModal(date,orders){
     const number=document.createElement('div'); number.className='day-order__number'; number.textContent=`Заказ №${order.order_number||'—'}`;
     const title=document.createElement('div'); title.className='day-order__title'; title.textContent=order.title||'Без названия';
     const meta=document.createElement('div'); meta.className='day-order__meta'; meta.textContent=`Заказчик: ${order.customer||'не указан'} · Размер: ${order.dimensions||'не указан'}`;
-    info.append(number,title,meta);
+    const created=document.createElement('div'); created.className='day-order__created'; created.textContent=`Создан: ${formatDateTime(order.created_at)}`;
+    info.append(number,title,meta,created);
 
     const status=document.createElement('span');
     status.className='day-order__status';
