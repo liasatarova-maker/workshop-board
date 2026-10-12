@@ -46,6 +46,7 @@ let refreshTimer=null;
 let requestInProgress=false;
 let editedOrderNumber=null;
 let allOrders=[];
+let lastOrdersSignature=null;
 let currentPage=1;
 const ORDERS_PER_PAGE=6;
 
@@ -141,6 +142,8 @@ function createOrderCard(order,completed){
     const placeholder=card.querySelector('.completed-thumbnail__placeholder');
 
     if(order.image_url){
+      thumbnailImage.loading='lazy';
+      thumbnailImage.decoding='async';
       thumbnailImage.src=order.image_url;
       thumbnailImage.alt=`Изображение заказа №${order.order_number||''}`;
       thumbnail.classList.add('has-image');
@@ -166,7 +169,9 @@ function createOrderCard(order,completed){
   const placeholder=card.querySelector('.order-thumbnail__placeholder');
 
   if(order.image_url){
-    thumbnailImage.src=order.image_url;
+    thumbnailImage.loading='lazy';
+      thumbnailImage.decoding='async';
+      thumbnailImage.src=order.image_url;
     thumbnailImage.alt=`Изображение заказа №${order.order_number||''}`;
     thumbnail.classList.add('has-image');
     placeholder.hidden=true;
@@ -277,6 +282,8 @@ function openDayModal(date,orders){
     preview.setAttribute('aria-label',order.image_url?'Открыть изображение заказа':'Изображение не добавлено');
     if(order.image_url){
       const image=document.createElement('img');
+      image.loading='lazy';
+      image.decoding='async';
       image.src=order.image_url;
       image.alt=`Изображение заказа №${order.order_number||''}`;
       preview.appendChild(image);
@@ -390,7 +397,12 @@ async function loadOrders(){
       throw new Error(`Supabase ${response.status}: ${message||response.statusText}`);
     }
 
-    renderOrders(await response.json());
+    const orders=await response.json();
+    const signature=JSON.stringify(orders);
+    if(signature!==lastOrdersSignature){
+      renderOrders(orders);
+      lastOrdersSignature=signature;
+    }
     setConnectionStatus(`Обновлено: ${new Date().toLocaleTimeString('ru-RU')}`);
   }catch(error){
     console.error(error);
@@ -617,7 +629,7 @@ async function clearCompletedOrders(){
 
 function startAutoRefresh(){
   clearInterval(refreshTimer);
-  refreshTimer=setInterval(loadOrders,10000);
+  refreshTimer=setInterval(loadOrders,30000);
 }
 
 
