@@ -353,6 +353,31 @@ function setView(view){
   if(calendar) renderCalendar();
 }
 
+// Keep completed cards mounted when unrelated orders change.
+const completedCardCache=new Map();
+function renderCompletedCards(orders){
+  const activeKeys=new Set();
+  const desiredCards=[];
+  for(const order of orders){
+    const key=String(order.order_number);
+    activeKeys.add(key);
+    const signature=JSON.stringify(order);
+    let cached=completedCardCache.get(key);
+    if(!cached || cached.signature!==signature){
+      cached={signature,element:createOrderCard(order,true)};
+      completedCardCache.set(key,cached);
+    }
+    desiredCards.push(cached.element);
+  }
+  for(const key of completedCardCache.keys()){
+    if(!activeKeys.has(key)) completedCardCache.delete(key);
+  }
+  const currentCards=Array.from(completedOrdersElement.children);
+  if(currentCards.length!==desiredCards.length || currentCards.some((card,i)=>card!==desiredCards[i])){
+    completedOrdersElement.replaceChildren(...desiredCards);
+  }
+}
+
 function renderOrders(orders){
   allOrders=orders;
   let newOrders=orders.filter((order)=>order.status==='new');
@@ -365,9 +390,8 @@ function renderOrders(orders){
   const visibleNewOrders=newOrders.slice(start,start+ORDERS_PER_PAGE);
 
   newOrdersElement.replaceChildren();
-  completedOrdersElement.replaceChildren();
   visibleNewOrders.forEach((order)=>newOrdersElement.appendChild(createOrderCard(order,false)));
-  completedOrders.forEach((order)=>completedOrdersElement.appendChild(createOrderCard(order,true)));
+  renderCompletedCards(completedOrders);
 
   newCountElement.textContent=String(newOrders.length);
   completedCountElement.textContent=String(completedOrders.length);
